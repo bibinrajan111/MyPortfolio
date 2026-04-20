@@ -1,3 +1,4 @@
+import Image from "next/image";
 import PrintCvButton from "@/components/print-cv-button";
 
 export const metadata = {
@@ -11,10 +12,22 @@ export default function CvPage() {
       <div className="no-print mb-6 flex justify-end">
         <PrintCvButton />
       </div>
+
       <header>
-        <h1 className="text-3xl font-bold">Bibin Rajan</h1>
-        <p className="mt-1 text-sm">Data Analyst (Full-Stack Analytics) · Relocating to Munich</p>
-        <p className="mt-1 text-sm">Email: bibinrajanin@gmail.com | Phone: +91 9539202640 | LinkedIn: linkedin.com/in/bibin-rajan-8ba997158</p>
+        <div className="mb-4 flex items-start gap-4">
+          <Image
+            src="/assets/profile-bibin.jpg"
+            alt="Bibin Rajan profile photo"
+            width={96}
+            height={96}
+            className="h-24 w-24 rounded object-cover"
+          />
+          <div>
+            <h1 className="text-3xl font-bold">Bibin Rajan</h1>
+            <p className="mt-1 text-sm">Data Analyst (Full-Stack Analytics) · Relocating to Munich</p>
+            <p className="mt-1 text-sm">Email: bibinrajanin@gmail.com | Phone: +91 9539202640 | LinkedIn: linkedin.com/in/bibin-rajan-8ba997158</p>
+          </div>
+        </div>
       </header>
 
       <section className="mt-6">

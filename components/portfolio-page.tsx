@@ -46,6 +46,7 @@ export default function PortfolioPage() {
             <a href="#contact" className="transition hover:text-white">Contact</a>
             <Link href="/cv" className="rounded-full border border-white/20 px-4 py-1.5 text-white transition hover:border-accentPurple">Download CV</Link>
           </nav>
+          <Link href="/cv" className="sm:hidden rounded-full border border-white/20 px-3 py-1.5 text-xs text-white">CV</Link>
         </div>
       </header>
 
@@ -66,7 +67,7 @@ export default function PortfolioPage() {
             <div className="relative mx-auto h-[420px] w-full max-w-md">
               <div className="glass absolute inset-8 rounded-[2rem]" />
               <Image
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1000&q=80"
+                src="/assets/profile-bibin.jpg"
                 alt="Bibin Rajan professional headshot"
                 width={520}
                 height={640}
@@ -134,7 +135,7 @@ export default function PortfolioPage() {
                   <p className="text-muted">{item.role}</p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Image src="https://jupiterfincorp.com/assets/images/logo.jpg" alt="Jupiter Fincorp logo" width={130} height={40} className="rounded-md bg-white p-1" />
+                  <Image src="/assets/jupiter-logo.png" alt="Jupiter Fincorp logo" width={180} height={64} className="rounded-md bg-white/90 p-2" />
                   <span className="text-sm text-muted">{item.period}</span>
                 </div>
               </div>
