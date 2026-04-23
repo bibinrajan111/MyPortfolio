@@ -1,9 +1,4 @@
-import dynamic from "next/dynamic";
-
-const PortfolioPage = dynamic(() => import("@/components/portfolio-page"), {
-  ssr: false,
-  loading: () => <div className="min-h-screen bg-bg" />
-});
+import PortfolioPage from "@/components/portfolio-page";
 
 export default function Home() {
   return <PortfolioPage />;
