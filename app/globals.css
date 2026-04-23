@@ -6,8 +6,14 @@
   color-scheme: dark;
 }
 
-* {
+html,
+body {
   scroll-behavior: smooth;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -28,12 +34,25 @@ body {
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
 }
 
+.cv-font {
+  font-family: Bahnschrift, "Bahnschrift Light", "Segoe UI", Arial, sans-serif;
+}
+
+.cv-heading {
+  font-family: Bahnschrift, "Bahnschrift SemiBold", "Segoe UI", Arial, sans-serif;
+  font-weight: 700;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto !important;
+  }
+
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
@@ -41,7 +60,7 @@ body {
   body {
     background: #fff !important;
     color: #000 !important;
-    font-family: Arial, Helvetica, sans-serif !important;
+    font-family: Bahnschrift, Arial, Helvetica, sans-serif !important;
   }
 
   .no-print {
@@ -58,6 +77,5 @@ body {
     margin: 0 !important;
     max-width: 210mm !important;
     min-height: 297mm;
-    padding: 14mm 12mm !important;
   }
 }

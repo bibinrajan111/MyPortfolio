@@ -47,6 +47,7 @@ const timelines = [
 const navItems = [
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
+  { label: "Analytics", href: "#analytics" },
   { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" }
 ];
@@ -57,6 +58,11 @@ export default function PortfolioPage() {
   const [navMetrics, setNavMetrics] = useState<NavMetric[]>(analyticsSeed);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
     const fromStorage = localStorage.getItem(STORAGE_KEY);
     if (fromStorage) {
       try {
@@ -86,8 +92,8 @@ export default function PortfolioPage() {
   return (
     <main className="overflow-x-hidden bg-mesh-gradient">
       <header className="section-shell sticky top-0 z-50 mt-3 sm:mt-4">
-        <div className="glass rounded-2xl px-3 py-3 sm:px-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="glass rounded-2xl px-3 py-3 shadow-glow sm:px-6">
+          <div className="flex items-center justify-between gap-3">
             <p className="text-sm font-medium text-white">Bibin Rajan</p>
             <Link
               href="/cv"
@@ -97,7 +103,7 @@ export default function PortfolioPage() {
               Download CV
             </Link>
           </div>
-          <nav className="mt-3 flex flex-wrap gap-2 sm:gap-5 sm:text-sm text-xs text-muted">
+          <nav className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted sm:gap-4 sm:text-sm">
             {navItems.map((item) => (
               <a
                 key={item.label}
@@ -371,8 +377,8 @@ export default function PortfolioPage() {
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="glass rounded-3xl p-6 text-sm text-muted">
               <p><span className="text-white">Email:</span> bibinrajanin@gmail.com</p>
-              <p className="mt-2"><span className="text-white">LinkedIn:</span> https://www.linkedin.com/in/bibin-rajan-8ba997158/</p>
-              <p className="mt-2"><span className="text-white">Phone:</span> +91 9539202640</p>
+              <p className="mt-2"><span className="text-white">LinkedIn:</span> <a href="https://www.linkedin.com/in/bibin-rajan-8ba997158/" className="underline-offset-4 hover:underline">linkedin.com/in/bibin-rajan-8ba997158</a></p>
+              <p className="mt-2"><span className="text-white">Phone:</span>&nbsp;<a href="tel:+919539202640" suppressHydrationWarning>+91 9539202640</a></p>
             </div>
             <form className="glass rounded-3xl p-6" action="mailto:bibinrajanin@gmail.com" method="post" encType="text/plain">
               <label className="mb-3 block text-sm">Name
