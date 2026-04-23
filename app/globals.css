@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-bg text-white antialiased;
+  font-family: Inter, Arial, sans-serif;
+  background-image: radial-gradient(circle at top, rgba(139, 92, 246, 0.2), transparent 40%), radial-gradient(circle at bottom right, rgba(22, 224, 139, 0.12), transparent 35%);
+}
+
+.section-shell {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+.glass {
+  @apply border border-white/10 bg-white/5 backdrop-blur-md shadow-glass;
+}
+
+.cv-sheet {
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .page-break-avoid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .cv-sheet {
+    box-shadow: none !important;
+    margin: 0 !important;
+    max-width: 210mm !important;
+    min-height: 297mm;
+    padding: 14mm 12mm !important;
+  }
+}
