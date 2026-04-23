@@ -28,3 +28,38 @@ export const skills = [
   { name: "Data Modeling", level: 88 },
   { name: "API Integrations", level: 82 }
 ];
+
+export const educationTimeline = [
+  {
+    qualification: "MSc Computer Science",
+    institution: "Anglia Ruskin University",
+    period: "10 Sep 2020 – 17 May 2022",
+    location: "Cambridge, United Kingdom",
+    details: "Information and Communication Technologies: Software and applications development and analysis",
+    eqf: "EQF Level 7"
+  },
+  {
+    qualification: "BCA",
+    institution: "Yeldo Mar Baselios College",
+    period: "01 Jun 2015 – 30 Mar 2018",
+    location: "Kothamangalam, India",
+    details: "Information and Communication Technologies: Software and applications development and analysis",
+    eqf: "EQF Level 6"
+  },
+  {
+    qualification: "Secondary Education",
+    institution: "M K M H S S",
+    period: "03 Jun 2013 – 27 Mar 2015",
+    location: "Piravom, India",
+    details: "Information and Communication Technologies (ICTs)",
+    eqf: "EQF Level 4"
+  }
+];
+
+export const analyticsSeed = [
+  { section: "Projects", clicks: 36 },
+  { section: "Experience", clicks: 24 },
+  { section: "Education", clicks: 19 },
+  { section: "Contact", clicks: 14 },
+  { section: "Download CV", clicks: 28 }
+];

@@ -24,6 +24,10 @@ body {
   @apply border border-white/10 bg-white/5 backdrop-blur-md shadow-glass;
 }
 
+.cv-sheet {
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -46,5 +50,14 @@ body {
 
   .page-break-avoid {
     page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .cv-sheet {
+    box-shadow: none !important;
+    margin: 0 !important;
+    max-width: 210mm !important;
+    min-height: 297mm;
+    padding: 14mm 12mm !important;
   }
 }

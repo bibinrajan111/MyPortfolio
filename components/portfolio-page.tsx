@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Area,
@@ -17,8 +18,17 @@ import {
   XAxis,
   YAxis
 } from "recharts";
-import { kpiDataset, performanceData, skills, storytellingData } from "@/data/portfolio";
+import {
+  analyticsSeed,
+  educationTimeline,
+  kpiDataset,
+  performanceData,
+  skills,
+  storytellingData
+} from "@/data/portfolio";
 import { FadeInSection, SectionTitle } from "@/components/ui";
+
+type NavMetric = { section: string; clicks: number };
 
 const timelines = [
   {
@@ -34,38 +44,90 @@ const timelines = [
   }
 ];
 
+const navItems = [
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Education", href: "#education" },
+  { label: "Contact", href: "#contact" }
+];
+
+const STORAGE_KEY = "portfolio_nav_clicks_v1";
+
 export default function PortfolioPage() {
+  const [navMetrics, setNavMetrics] = useState<NavMetric[]>(analyticsSeed);
+
+  useEffect(() => {
+    const fromStorage = localStorage.getItem(STORAGE_KEY);
+    if (fromStorage) {
+      try {
+        const parsed = JSON.parse(fromStorage) as NavMetric[];
+        if (Array.isArray(parsed) && parsed.length > 0) setNavMetrics(parsed);
+      } catch {
+        // ignore malformed local storage and keep seed
+      }
+    }
+  }, []);
+
+  const topInterest = useMemo(
+    () => [...navMetrics].sort((a, b) => b.clicks - a.clicks)[0],
+    [navMetrics]
+  );
+
+  const registerNavClick = (label: string) => {
+    setNavMetrics((prev) => {
+      const next = prev.map((metric) =>
+        metric.section === label ? { ...metric, clicks: metric.clicks + 1 } : metric
+      );
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
   return (
     <main className="overflow-x-hidden bg-mesh-gradient">
-      <header className="section-shell sticky top-0 z-50 mt-4">
-        <div className="glass flex items-center justify-between rounded-2xl px-4 py-3 sm:px-6">
-          <p className="text-sm font-medium text-white">Bibin Rajan</p>
-          <nav className="hidden items-center gap-5 text-sm text-muted sm:flex">
-            <a href="#projects" className="transition hover:text-white">Projects</a>
-            <a href="#experience" className="transition hover:text-white">Experience</a>
-            <a href="#contact" className="transition hover:text-white">Contact</a>
-            <Link href="/cv" className="rounded-full border border-white/20 px-4 py-1.5 text-white transition hover:border-accentPurple">Download CV</Link>
+      <header className="section-shell sticky top-0 z-50 mt-3 sm:mt-4">
+        <div className="glass rounded-2xl px-3 py-3 sm:px-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm font-medium text-white">Bibin Rajan</p>
+            <Link
+              href="/cv"
+              onClick={() => registerNavClick("Download CV")}
+              className="rounded-full border border-white/20 px-4 py-1.5 text-xs text-white transition hover:border-accentPurple sm:text-sm"
+            >
+              Download CV
+            </Link>
+          </div>
+          <nav className="mt-3 flex flex-wrap gap-2 sm:gap-5 sm:text-sm text-xs text-muted">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => registerNavClick(item.label)}
+                className="rounded-full border border-white/10 px-3 py-1.5 transition hover:border-accentPurple hover:text-white"
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
-          <Link href="/cv" className="sm:hidden rounded-full border border-white/20 px-3 py-1.5 text-xs text-white">CV</Link>
         </div>
       </header>
 
-      <section className="section-shell relative flex min-h-[calc(100vh-2rem)] flex-col justify-center pb-16 pt-10">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <section className="section-shell relative flex min-h-[calc(100vh-2rem)] flex-col justify-center pb-12 pt-10 sm:pb-16">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.2fr_1fr]">
           <FadeInSection>
-            <p className="mb-4 text-sm uppercase tracking-[0.22em] text-accentGreen">Data Analyst · Full-Stack Analytics</p>
-            <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">Turning Financial Data into Business Decisions</h1>
-            <p className="mt-5 max-w-2xl text-lg text-muted">I build high-performance data systems, dashboards, and insights that drive revenue.</p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <a href="#projects" className="rounded-full bg-gradient-to-r from-accentGreen to-emerald-400 px-6 py-3 text-sm font-semibold text-slate-900 transition hover:brightness-110">View Projects</a>
-              <a href="#contact" className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold transition hover:border-accentPurple hover:text-accentPurple">Contact Me</a>
+            <p className="mb-4 text-xs uppercase tracking-[0.22em] text-accentGreen sm:text-sm">Data Analyst · Full-Stack Analytics</p>
+            <h1 className="max-w-3xl text-3xl font-semibold leading-tight sm:text-5xl lg:text-6xl">Turning Financial Data into Business Decisions</h1>
+            <p className="mt-5 max-w-2xl text-base text-muted sm:text-lg">I build high-performance data systems, dashboards, and insights that drive revenue.</p>
+            <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
+              <a href="#projects" className="rounded-full bg-gradient-to-r from-accentGreen to-emerald-400 px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:brightness-110 sm:px-6 sm:py-3">View Projects</a>
+              <a href="#contact" className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold transition hover:border-accentPurple hover:text-accentPurple sm:px-6 sm:py-3">Contact Me</a>
             </div>
-            <p className="mt-7 text-sm text-muted">3+ years in UK financial services · Relocating to Munich</p>
+            <p className="mt-6 text-sm text-muted">3+ years in UK financial services · Relocating to Munich</p>
           </FadeInSection>
 
           <FadeInSection delay={0.2}>
-            <div className="relative mx-auto h-[420px] w-full max-w-md">
-              <div className="glass absolute inset-8 rounded-[2rem]" />
+            <div className="relative mx-auto h-[340px] w-full max-w-sm sm:h-[420px] sm:max-w-md">
+              <div className="glass absolute inset-7 rounded-[2rem]" />
               <Image
                 src="/assets/profile-bibin.jpg"
                 alt="Bibin Rajan professional headshot"
@@ -78,13 +140,7 @@ export default function PortfolioPage() {
           </FadeInSection>
         </div>
 
-        <motion.div
-          aria-hidden
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2 }}
-          className="pointer-events-none absolute bottom-0 left-0 right-0 h-44"
-        >
+        <motion.div aria-hidden initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2 }} className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 sm:h-44">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={kpiDataset}>
               <defs>
@@ -117,6 +173,32 @@ export default function PortfolioPage() {
               </article>
             ))}
           </div>
+        </FadeInSection>
+      </section>
+
+      <section className="section-shell py-16" id="analytics">
+        <FadeInSection>
+          <SectionTitle
+            eyebrow="Live Analytics"
+            title="What recruiters are clicking most"
+            description="Great idea — this tracks navbar interaction trends to show what visitors prioritize on your profile. Data persists per browser using local storage."
+          />
+          <article className="glass rounded-3xl p-5 sm:p-7">
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={navMetrics}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#263141" />
+                  <XAxis dataKey="section" stroke="#9AA6B2" />
+                  <YAxis stroke="#9AA6B2" />
+                  <Tooltip contentStyle={{ backgroundColor: "#101826", border: "1px solid #334155" }} />
+                  <Bar dataKey="clicks" fill="#16E08B" radius={[10, 10, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="mt-4 text-sm text-muted">
+              Result: <span className="text-white">{topInterest?.section}</span> is currently the most viewed nav intent with <span className="text-accentGreen">{topInterest?.clicks}</span> clicks in this browser session history.
+            </p>
+          </article>
         </FadeInSection>
       </section>
 
@@ -252,6 +334,28 @@ export default function PortfolioPage() {
                   />
                 </div>
               </div>
+            ))}
+          </div>
+        </FadeInSection>
+      </section>
+
+      <section className="section-shell py-16" id="education">
+        <FadeInSection>
+          <SectionTitle
+            eyebrow="Education"
+            title="Academic foundation in software and analytics"
+            description="Strong technical grounding across software development, applied computing, and information systems."
+          />
+          <div className="grid gap-4 md:grid-cols-2">
+            {educationTimeline.map((item) => (
+              <article key={item.qualification} className="glass rounded-2xl p-5">
+                <h3 className="text-lg font-semibold">{item.qualification}</h3>
+                <p className="mt-1 text-sm text-white">{item.institution}</p>
+                <p className="mt-1 text-sm text-muted">{item.period}</p>
+                <p className="mt-1 text-sm text-muted">{item.location}</p>
+                <p className="mt-2 text-sm text-muted">{item.details}</p>
+                <p className="mt-2 text-xs uppercase tracking-[0.15em] text-accentGreen">{item.eqf}</p>
+              </article>
             ))}
           </div>
         </FadeInSection>
